@@ -1,11 +1,16 @@
-type Props = {title: string; value: string; detail?: string};
+type Props = {
+  label: string;
+  value: string;
+  note?: string;
+};
 
-export default function MetricCard({title, value, detail}: Props) {
+/** One figure in a stat strip: plain-language label, big value, short note. */
+export default function MetricCard({label, value, note}: Props) {
   return (
-    <article className='metric-card'>
-      <p>{title}</p>
-      <h2>{value}</h2>
-      {detail && <span>{detail}</span>}
-    </article>
+    <div className='stat'>
+      <p className='stat-label'>{label}</p>
+      <p className='stat-value'>{value}</p>
+      {note && <p className='stat-note'>{note}</p>}
+    </div>
   );
 }

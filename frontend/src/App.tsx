@@ -9,33 +9,42 @@ export default function App() {
   const [tab, setTab] = useState<Tab>("forecast");
 
   return (
-    <main className='dashboard'>
-      <header className='dashboard-header'>
-        <div>
-          <p className='eyebrow'>DAY-AHEAD POWER PROCUREMENT</p>
-          <h1>Wind Forecast Portal</h1>
-          <p className='subtitle'>
-            UK national wind generation · January 2026 · Elexon data
-          </p>
-        </div>
+    <main className='page'>
+      <header className='site-header'>
+        <h1>Wind forecast for day-ahead buying</h1>
+        <p>UK national wind generation, January 2026. Source: Elexon.</p>
       </header>
 
-      <nav className='tabs'>
+      <div className='tabs' role='tablist' aria-label='Views'>
         <button
-          className={tab === "forecast" ? "active" : ""}
+          id='tab-forecast'
+          className='tab'
+          role='tab'
+          aria-selected={tab === "forecast"}
+          aria-controls='panel-forecast'
           onClick={() => setTab("forecast")}
         >
           Day-ahead forecast
         </button>
         <button
-          className={tab === "accuracy" ? "active" : ""}
+          id='tab-accuracy'
+          className='tab'
+          role='tab'
+          aria-selected={tab === "accuracy"}
+          aria-controls='panel-accuracy'
           onClick={() => setTab("accuracy")}
         >
           Forecast accuracy
         </button>
-      </nav>
+      </div>
 
-      {tab === "forecast" ? <ForecastView /> : <AccuracyView />}
+      {/* Both views stay mounted so switching tabs keeps their state. */}
+      <div hidden={tab !== "forecast"}>
+        <ForecastView visible={tab === "forecast"} />
+      </div>
+      <div hidden={tab !== "accuracy"}>
+        <AccuracyView visible={tab === "accuracy"} />
+      </div>
     </main>
   );
 }
