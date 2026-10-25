@@ -294,12 +294,12 @@ def aggregate_actuals_hourly(actuals: pd.DataFrame) -> pd.DataFrame:
 
     df["delivery_start"] = df["delivery_start"].dt.floor("h")
 
-    return (
+    grouped = (
         df.groupby("delivery_start", as_index=False)
-        .agg(actual_mw=("actual_mw", "mean"))
-        .sort_values("delivery_start")
-        .reset_index(drop=True)
+        .agg(actual_mw=("actual_mw", "mean"), n=("actual_mw", "count"))
     )
+    grouped = grouped[grouped["n"] == 2].drop(columns="n")  # full hours only
+    return grouped.sort_values("delivery_start").reset_index(drop=True)
 
 def filter_wind_actuals(records: list[dict]) -> pd.DataFrame:
     """Filter FUELHH records to WIND and return a DataFrame."""

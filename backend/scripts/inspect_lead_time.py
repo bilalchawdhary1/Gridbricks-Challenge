@@ -17,11 +17,12 @@ from app.services.matching import (
 
 
 async def main():
-    start = date(2026, 10, 24)
-    end = date(2026, 10, 24)
-    cutoff = datetime(2026, 10, 24, 10, 30, tzinfo=timezone.utc)
+    start = date(2026, 1, 15)
+    end = date(2026, 1, 15)
+    cutoff = datetime(2026, 1, 15, 9, 0, tzinfo=timezone.utc)
 
     actual_records = await fetch_actuals(start, end)
+    print(f"Fetched {len(actual_records)} actual records")
     forecast_records = await fetch_wind_forecast_history(cutoff)
 
     actuals = aggregate_actuals_hourly(
