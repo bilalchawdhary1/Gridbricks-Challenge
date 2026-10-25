@@ -5,8 +5,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.data import router as data_router
 
 app = FastAPI(title="Gridbricks Challenge API")
-origins = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173").split(",")
-# allow_origins=origins
+
+origins = [
+    origin.strip().rstrip("/")
+    for origin in os.getenv(
+        "CORS_ORIGINS",
+        "http://localhost:5173,"
+        "http://127.0.0.1:5173,"
+        "https://frontend-chi-neon-18.vercel.app"
+    ).split(",")
+    if origin.strip()
+]
 
 app.add_middleware(
     CORSMiddleware,
@@ -22,4 +31,3 @@ app.include_router(data_router)
 @app.get("/health")
 async def health_check():
     return {"status": "ok"}
-
