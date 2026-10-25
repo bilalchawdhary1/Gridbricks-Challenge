@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.data import router as data_router
 
-app = FastAPI(title="Gridbricks Challenge API")
+app = FastAPI(title="Wind Forecast API")
 
 origins = [
     origin.strip().rstrip("/")
